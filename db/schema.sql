@@ -102,34 +102,29 @@ INSERT INTO admins (username, password, name) VALUES
 ('admin', SHA2('admin123', 256), 'مدير النظام');
 
 -- ------------------------------------------------
--- 25 Branches
+-- الفروع الحقيقية
 -- ------------------------------------------------
 INSERT INTO branches (name_ar, name_en, city_ar, city_en, address_ar, phone, map_url, sort_order) VALUES
-('فرع العليا', 'Olaya Branch', 'الرياض', 'Riyadh', 'حي العليا، طريق الملك فهد، الرياض', '0112345601', 'https://maps.google.com/?q=24.6921,46.6872', 1),
-('فرع النخيل مول', 'Nakheel Mall Branch', 'الرياض', 'Riyadh', 'نخيل مول، طريق الملك فهد، الرياض', '0112345602', 'https://maps.google.com/?q=24.7593,46.6382', 2),
-('فرع مول الرياض', 'Riyadh Mall Branch', 'الرياض', 'Riyadh', 'مول الرياض، طريق الملك عبدالله، الرياض', '0112345603', 'https://maps.google.com/?q=24.7519,46.7185', 3),
-('فرع حي طويق', 'Tuwaiq Branch', 'الرياض', 'Riyadh', 'حي طويق، شارع الأمير محمد بن سعد، الرياض', '0112345604', 'https://maps.google.com/?q=24.6201,46.5771', 4),
-('فرع حي الياسمين', 'Yasmin Branch', 'الرياض', 'Riyadh', 'حي الياسمين، طريق أنس بن مالك، الرياض', '0112345605', 'https://maps.google.com/?q=24.8154,46.6781', 5),
-('فرع البلد', 'Old Town Branch', 'جدة', 'Jeddah', 'البلد التاريخي، شارع الهندية، جدة', '0122345601', 'https://maps.google.com/?q=21.4858,39.1879', 6),
-('فرع الحمرا', 'Hamra Branch', 'جدة', 'Jeddah', 'حي الحمرا، شارع فلسطين، جدة', '0122345602', 'https://maps.google.com/?q=21.5433,39.1728', 7),
-('فرع النزهة', 'Nuzha Branch', 'جدة', 'Jeddah', 'حي النزهة، جدة', '0122345603', 'https://maps.google.com/?q=21.5590,39.1854', 8),
-('فرع جوهرة مول', 'Jawharah Mall Branch', 'جدة', 'Jeddah', 'جوهرة مول، طريق الملك عبدالعزيز، جدة', '0122345604', 'https://maps.google.com/?q=21.4925,39.1929', 9),
-('فرع كورنيش الدمام', 'Dammam Corniche Branch', 'الدمام', 'Dammam', 'كورنيش الدمام، شارع الأمير محمد، الدمام', '0132345601', 'https://maps.google.com/?q=26.4207,50.0888', 10),
-('فرع حي الفيصلية', 'Faisaliyah Branch', 'الدمام', 'Dammam', 'حي الفيصلية، الدمام', '0132345602', 'https://maps.google.com/?q=26.4367,50.1028', 11),
-('فرع حي العنود', 'Anoud Branch', 'الدمام', 'Dammam', 'حي العنود، الدمام', '0132345603', 'https://maps.google.com/?q=26.4058,50.1198', 12),
-('فرع حي الراكة', 'Rakah Branch', 'الخبر', 'Khobar', 'حي الراكة الشمالية، الخبر', '0132345604', 'https://maps.google.com/?q=26.2794,50.2083', 13),
-('فرع شارع الأمير فهد', 'Prince Fahd St Branch', 'الخبر', 'Khobar', 'شارع الأمير محمد بن فهد، الخبر', '0132345605', 'https://maps.google.com/?q=26.2976,50.1984', 14),
-('فرع العزيزية', 'Aziziyah Branch', 'مكة المكرمة', 'Makkah', 'حي العزيزية، مكة المكرمة', '0122345610', 'https://maps.google.com/?q=21.3891,39.8579', 15),
-('فرع النسيم', 'Naseem Branch', 'مكة المكرمة', 'Makkah', 'حي النسيم، مكة المكرمة', '0122345611', 'https://maps.google.com/?q=21.4225,39.8255', 16),
-('فرع حي العوالي', 'Awali Branch', 'المدينة المنورة', 'Madinah', 'حي العوالي، المدينة المنورة', '0148345601', 'https://maps.google.com/?q=24.5247,39.5692', 17),
-('فرع بني حارثة', 'Bani Haritha Branch', 'المدينة المنورة', 'Madinah', 'حي بني حارثة، المدينة المنورة', '0148345602', 'https://maps.google.com/?q=24.5020,39.5894', 18),
-('فرع المنهل - أبها', 'Manhal Branch', 'أبها', 'Abha', 'حي المنهل، أبها', '0172345601', 'https://maps.google.com/?q=18.2164,42.5053', 19),
-('فرع حي الشهداء - الطائف', 'Shuhadaa Branch', 'الطائف', 'Taif', 'حي الشهداء، الطائف', '0122345620', 'https://maps.google.com/?q=21.2854,40.4149', 20),
-('فرع الفناتير - الجبيل', 'Fanateer Branch', 'الجبيل', 'Jubail', 'حي الفناتير، الجبيل الصناعية', '0133345601', 'https://maps.google.com/?q=27.0174,49.6580', 21),
-('فرع حي المروة - تبوك', 'Marwah Branch', 'تبوك', 'Tabuk', 'حي المروة، تبوك', '0144345601', 'https://maps.google.com/?q=28.3998,36.5662', 22),
-('فرع حي الحمر - حائل', 'Hamr Branch', 'حائل', 'Hail', 'حي الحمر، حائل', '0163345601', 'https://maps.google.com/?q=27.5114,41.6900', 23),
-('فرع وسط المدينة - بريدة', 'Central Buraidah Branch', 'بريدة', 'Buraidah', 'وسط مدينة بريدة، القصيم', '0163345602', 'https://maps.google.com/?q=26.3292,43.9750', 24),
-('فرع حي الشرفية - ينبع', 'Sharafiya Branch', 'ينبع', 'Yanbu', 'حي الشرفية، ينبع البحر', '0144345602', 'https://maps.google.com/?q=24.0875,38.0580', 25);
+('مكة المكرمة - الشرائع', 'Makkah - Al Sharaie', 'مكة المكرمة', 'Makkah', 'Al Muhandes Umar Qadi، الشرائع، مكة المكرمة', '920029921', 'https://maps.app.goo.gl/3bzfVB1pDvXQtqc46', 1),
+('مكة المكرمة - فرع ٢', 'Makkah - Branch 2', 'مكة المكرمة', 'Makkah', 'شارع الخمسين، طريق الملك خالد، مكة المكرمة', '920029921', 'https://maps.app.goo.gl/kiwaqfbjFSaCCzW1A', 2),
+('جدة - ابحر', 'Jeddah - Abhur', 'جدة', 'Jeddah', 'حي ابحر الشمالية، جدة', '920029921', 'https://maps.app.goo.gl/XwYU2Mpf8ipFkzxa7', 3),
+('جدة - فرع ٢', 'Jeddah - Branch 2', 'جدة', 'Jeddah', 'مقابل سبار ماركت، جدة', '920029921', 'https://maps.app.goo.gl/3zw2UDqX7orh4UqG6', 4),
+('جدة - حي الحمراء', 'Jeddah - Al Hamra', 'جدة', 'Jeddah', 'حي الحمراء، جدة', '920029921', NULL, 5),
+('الرياض - حي الربيع', 'Riyadh - Al Rabi', 'الرياض', 'Riyadh', 'حي الربيع، الرياض', '920029921', NULL, 6),
+('الرياض - حي المحمدية', 'Riyadh - Al Muhammadiyah', 'الرياض', 'Riyadh', 'حي المحمدية، الرياض', '920029921', NULL, 7),
+('الرياض - حي الياسمين', 'Riyadh - Al Yasmin', 'الرياض', 'Riyadh', 'حي الياسمين، الرياض', '920029921', NULL, 8),
+('الرياض - الدائري الشرقي', 'Riyadh - Eastern Ring', 'الرياض', 'Riyadh', 'الدائري الشرقي، الرياض', '920029921', NULL, 9),
+('الرياض - ظهرة لبن', 'Riyadh - Dhahrat Laban', 'الرياض', 'Riyadh', 'حي ظهرة لبن، الرياض', '920029921', NULL, 10),
+('الدمام - حي النزهة', 'Dammam - Al Nuzha', 'الدمام', 'Dammam', 'حي النزهة، الدمام', '920029921', NULL, 11),
+('الدمام - حي الفيحاء', 'Dammam - Al Fayha', 'الدمام', 'Dammam', 'شارع خالد بن الوليد، حي الفيحاء، الدمام', '920029921', 'https://maps.app.goo.gl/WBePwEkF5ESpTLVn7', 12),
+('الخبر', 'Al Khobar', 'الخبر', 'Khobar', 'EKGA7484، الخبر', '920029921', 'https://maps.app.goo.gl/NB1uMntPLAiGfbCL6', 13),
+('الطائف', 'Taif', 'الطائف', 'Taif', 'شارع الخمسين، طريق الملك خالد، الطائف', '920029921', 'https://maps.app.goo.gl/q79uN4MrVHdcqroz6', 14),
+('الأحساء', 'Al Ahsa', 'الأحساء', 'Al Ahsa', 'طريق عين نجم، المبرز، الأحساء', '920029921', 'https://maps.app.goo.gl/mZcuxXo8ZqqQqtaA8', 15),
+('حفر الباطن', 'Hafar Al Batin', 'حفر الباطن', 'Hafar Al Batin', '2811 طريق فيصل بن عبدالعزيز، حفر الباطن', '920029921', 'https://maps.app.goo.gl/M7b9e9q28zkFV8H67', 16),
+('خميس مشيط', 'Khamis Mushait', 'خميس مشيط', 'Khamis Mushait', 'طريق الأمير سلطان، خميس مشيط', '920029921', 'https://maps.app.goo.gl/EjWLixBzPt6SnnC18', 17),
+('جازان', 'Jizan', 'جازان', 'Jizan', 'كورنيش الملك فهد، جازان', '920029921', 'https://maps.app.goo.gl/byk6aX6Mko4kestT9', 18),
+('تبوك', 'Tabuk', 'تبوك', 'Tabuk', 'تبوك', '920029921', 'https://maps.app.goo.gl/P2RdZHZCvifsMxTr7', 19),
+('حائل', 'Hail', 'حائل', 'Hail', 'حائل', '920029921', NULL, 20);
 
 -- ------------------------------------------------
 -- 25 Brands
@@ -162,20 +157,18 @@ INSERT INTO brands (name_ar, name_en, sort_order) VALUES
 ('ميمو باريس', 'Memo Paris', 25);
 
 -- ------------------------------------------------
--- Social Media
+-- Social Media (بيانات حقيقية)
 -- ------------------------------------------------
 INSERT INTO social_media (platform, platform_ar, url, username, icon, color, sort_order) VALUES
-('Instagram', 'انستقرام', 'https://instagram.com/makhazen_alenayah', '@makhazen_alenayah', 'fa-instagram', '#E1306C', 1),
-('TikTok', 'تيك توك', 'https://tiktok.com/@makhazen_alenayah', '@makhazen_alenayah', 'fa-tiktok', '#ffffff', 2),
-('Snapchat', 'سناب شات', 'https://snapchat.com/add/makhazen_care', 'makhazen_care', 'fa-snapchat', '#FFFC00', 3),
-('Twitter', 'تويتر / X', 'https://twitter.com/makhazen_care', '@makhazen_care', 'fa-x-twitter', '#ffffff', 4),
-('WhatsApp', 'واتساب', 'https://wa.me/966500000000', '0500000000', 'fa-whatsapp', '#25D366', 5),
-('YouTube', 'يوتيوب', 'https://youtube.com/@makhazen_alenayah', '@makhazen_alenayah', 'fa-youtube', '#FF0000', 6);
+('Instagram', 'انستقرام', 'https://www.instagram.com/makhazenalenaya/', '@makhazenalenaya', 'fa-instagram', '#E1306C', 1),
+('TikTok', 'تيك توك', 'https://www.tiktok.com/@makhazenalenaya', '@makhazenalenaya', 'fa-tiktok', '#ffffff', 2),
+('Snapchat', 'سناب شات', 'https://www.snapchat.com/add/makhazenalenaya', 'makhazenalenaya', 'fa-snapchat', '#FFFC00', 3),
+('Twitter', 'تويتر / X', 'https://x.com/makhazenalenaya', '@makhazenalenaya', 'fa-x-twitter', '#ffffff', 4),
+('WhatsApp', 'واتساب', 'https://wa.me/966920029921', '920029921', 'fa-whatsapp', '#25D366', 5);
 
 -- ------------------------------------------------
--- Contact Info
+-- Contact Info (بيانات حقيقية)
 -- ------------------------------------------------
 INSERT INTO contact_info (type, value, label_ar, sort_order) VALUES
-('phone', '920000000', 'خدمة العملاء', 1),
-('whatsapp', '+966500000000', 'واتساب', 2),
-('email', 'info@makhazen-alenayah.com', 'البريد الإلكتروني', 3);
+('phone', '920029921', 'خدمة العملاء', 1),
+('whatsapp', '+966920029921', 'واتساب', 2);
