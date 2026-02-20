@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#13849e" />
   <title>مخازن العناية | Makhazen Alenayah</title>
   <meta name="description" content="مخازن العناية - وجهتك الأولى للجمال والعناية. 25 فرع في أنحاء المملكة العربية السعودية." />
 
@@ -17,8 +17,35 @@
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Dynamic Header Code (Google Analytics / Tracking) -->
+  <script>
+    fetch('api/settings.php')
+      .then(r => r.json())
+      .then(d => {
+        if (d.settings && d.settings.header_code) {
+          const el = document.createElement('div');
+          el.innerHTML = d.settings.header_code;
+          el.childNodes.forEach(n => document.head.appendChild(n.cloneNode(true)));
+        }
+      }).catch(() => {});
+  </script>
 </head>
 <body>
+
+<!-- Dynamic Body Code (GTM noscript / body tracking) -->
+<script>
+  fetch('api/settings.php')
+    .then(r => r.json())
+    .then(d => {
+      if (d.settings && d.settings.body_code) {
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+        wrapper.innerHTML = d.settings.body_code;
+        document.body.insertBefore(wrapper, document.body.firstChild);
+      }
+    }).catch(() => {});
+</script>
 
 <!-- ============================================================
   PRELOADER
@@ -64,15 +91,15 @@
     <div class="hero-logo-wrap" id="hero-logo">
       <img src="logo-white.png" alt="مخازن العناية" class="hero-logo-img" />
     </div>
-    <p class="hero-tagline" id="hero-tagline">جمالك... عنايتنا</p>
+    <p class="hero-tagline" id="hero-tagline">مستلزمات الصيدليات والعناية بالجسم</p>
     <div class="hero-stats" id="hero-stats">
       <div class="stat-item">
-        <span class="stat-num">25</span>
+        <span class="stat-num">20+</span>
         <span class="stat-label">فرع</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-num">25</span>
+        <span class="stat-num">25+</span>
         <span class="stat-label">براند عالمي</span>
       </div>
       <div class="stat-divider"></div>
@@ -129,7 +156,7 @@
   <div class="container">
     <div class="section-header">
       <span class="section-badge">فروعنا</span>
-      <h2 class="section-title">25 فرع في أنحاء المملكة</h2>
+      <h2 class="section-title">20 فرع في أنحاء المملكة</h2>
       <div class="title-line"></div>
     </div>
 

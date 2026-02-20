@@ -105,6 +105,7 @@ function switchTab(tab) {
     brands:   'البراندات',
     social:   'التواصل الاجتماعي',
     contact:  'معلومات التواصل',
+    tracking: 'كودات التتبع',
   };
   document.getElementById('topbar-title').textContent = titles[tab] || tab;
 }
@@ -319,12 +320,28 @@ const FORMS = {
     </div>
     <div class="modal-form-group">
       <label>شعار البراند</label>
-      <div class="upload-area" onclick="document.getElementById('logo-file').click()">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <p>اضغط لرفع الشعار (JPG, PNG, WebP)</p>
-        <div class="upload-preview" id="upload-preview">
-          ${data.logo_url ? `<img src="../${data.logo_url}" />` : ''}
-        </div>
+      <div id="logo-zone">
+        ${data.logo_url
+          ? `<div class="logo-current-wrap">
+               <div class="logo-current-preview">
+                 <img src="../${data.logo_url}" alt="الشعار الحالي" id="logo-current-img" />
+               </div>
+               <div class="logo-current-actions">
+                 <button type="button" class="btn-change-logo" onclick="document.getElementById('logo-file').click()">
+                   <i class="fas fa-sync-alt"></i> تغيير الشعار
+                 </button>
+                 <button type="button" class="btn-remove-logo" onclick="removeLogo()">
+                   <i class="fas fa-trash"></i> حذف الشعار
+                 </button>
+               </div>
+             </div>`
+          : `<div class="upload-area" id="upload-area-btn" onclick="document.getElementById('logo-file').click()">
+               <i class="fas fa-cloud-upload-alt"></i>
+               <p>اضغط لرفع الشعار</p>
+               <small style="color:#555">JPG · PNG · WebP · SVG (بحد أقصى 2MB)</small>
+             </div>`
+        }
+        <div class="upload-preview" id="upload-preview" style="${data.logo_url ? 'display:none' : ''}"></div>
       </div>
       <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="previewAndUpload(this)" />
       <input type="hidden" id="f-logo_url" value="${data.logo_url || ''}" />
@@ -569,11 +586,20 @@ async function previewAndUpload(input) {
   const file = input.files[0];
   if (!file) return;
 
-  // Preview
+  // Instant local preview
   const reader = new FileReader();
   reader.onload = (e) => {
-    document.getElementById('upload-preview').innerHTML =
-      `<img src="${e.target.result}" style="max-height:60px;margin:0 auto;border-radius:6px" />`;
+    const preview = document.getElementById('upload-preview');
+    preview.style.display = 'block';
+    preview.innerHTML = `
+      <div class="logo-uploading-preview">
+        <img src="${e.target.result}" alt="preview" />
+        <span class="uploading-badge"><i class="fas fa-spinner fa-spin"></i> جاري الرفع...</span>
+      </div>`;
+
+    // Hide the upload button if visible
+    const btn = document.getElementById('upload-area-btn');
+    if (btn) btn.style.display = 'none';
   };
   reader.readAsDataURL(file);
 
@@ -586,13 +612,41 @@ async function previewAndUpload(input) {
     const data = await res.json();
     if (data.success) {
       document.getElementById('f-logo_url').value = data.url;
+      // Update preview to show success
+      const preview = document.getElementById('upload-preview');
+      preview.innerHTML = `
+        <div class="logo-uploading-preview">
+          <img src="../${data.url}" alt="preview" />
+          <span class="uploading-badge success"><i class="fas fa-check"></i> تم الرفع</span>
+        </div>`;
       showToast('تم رفع الشعار بنجاح', 'success');
     } else {
       showToast(data.message || 'فشل رفع الشعار', 'error');
+      resetUploadArea();
     }
   } catch {
     showToast('فشل رفع الشعار', 'error');
+    resetUploadArea();
   }
+}
+
+function removeLogo() {
+  document.getElementById('f-logo_url').value = '';
+  document.getElementById('logo-zone').innerHTML = `
+    <div class="upload-area" id="upload-area-btn" onclick="document.getElementById('logo-file').click()">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>اضغط لرفع الشعار</p>
+      <small style="color:#555">JPG · PNG · WebP · SVG (بحد أقصى 2MB)</small>
+    </div>
+    <div class="upload-preview" id="upload-preview"></div>`;
+  showToast('سيتم حذف الشعار عند الحفظ', 'success');
+}
+
+function resetUploadArea() {
+  const btn = document.getElementById('upload-area-btn');
+  if (btn) btn.style.display = '';
+  const preview = document.getElementById('upload-preview');
+  if (preview) { preview.style.display = 'none'; preview.innerHTML = ''; }
 }
 
 // ============================================================
@@ -623,6 +677,51 @@ function initSidebar() {
   });
 
   document.getElementById('sidebar-overlay').addEventListener('click', closeSidebar);
+}
+
+// ============================================================
+// TRACKING CODES (Google Analytics / GTM)
+// ============================================================
+async function loadTrackingCodes() {
+  try {
+    const res  = await fetch('../api/settings.php?admin=1');
+    const data = await res.json();
+    if (!data.success) return;
+    data.data.forEach(row => {
+      const el = document.getElementById(row.key);
+      if (el) el.value = row.value || '';
+    });
+  } catch (_) {}
+}
+
+async function saveTrackingCodes() {
+  const btn = document.querySelector('#tab-tracking .btn-add');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+  const body = {
+    header_code: document.getElementById('header_code').value,
+    body_code:   document.getElementById('body_code').value,
+  };
+
+  try {
+    const res  = await fetch('../api/settings.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message || 'تم الحفظ بنجاح', 'success');
+    } else {
+      showToast(data.message || 'حدث خطأ', 'error');
+    }
+  } catch {
+    showToast('فشل الاتصال بالخادم', 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-save"></i> حفظ الكودات';
 }
 
 // ============================================================
@@ -679,7 +778,7 @@ async function init() {
 
   initTabs();
   initSidebar();
-  await loadAll();
+  await Promise.all([loadAll(), loadTrackingCodes()]);
 }
 
 init();

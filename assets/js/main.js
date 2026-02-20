@@ -429,12 +429,15 @@ function renderBrands(brands) {
 
   brands.forEach((brand, i) => {
     const card = document.createElement('div');
-    card.className = 'brand-card';
 
     const logoHtml = brand.logo_url
-      ? `<img src="${brand.logo_url}" alt="${brand.name_en}" class="brand-logo-img" loading="lazy" />`
+      ? `<div class="brand-logo-wrap">
+           <img src="${brand.logo_url}" alt="${brand.name_en}" class="brand-logo-img" loading="lazy"
+                onerror="this.parentElement.remove(); this.closest('.brand-card').classList.remove('has-logo')" />
+         </div>`
       : `<div class="brand-logo-placeholder">${icons[i % icons.length]}</div>`;
 
+    card.className = brand.logo_url ? 'brand-card has-logo' : 'brand-card';
     card.innerHTML = `
       ${logoHtml}
       <div class="brand-name-en">${brand.name_en}</div>
@@ -480,45 +483,39 @@ async function loadData() {
 // ============================================================
 function loadFallbackData() {
   const social = [
-    { platform: 'Instagram', platform_ar: 'انستقرام', url: '#', username: '@makhazen_alenayah', icon: 'fa-instagram' },
-    { platform: 'TikTok',    platform_ar: 'تيك توك',   url: '#', username: '@makhazen_alenayah', icon: 'fa-tiktok'    },
-    { platform: 'Snapchat',  platform_ar: 'سناب شات',  url: '#', username: 'makhazen_care',      icon: 'fa-snapchat'  },
-    { platform: 'Twitter',   platform_ar: 'تويتر / X', url: '#', username: '@makhazen_care',     icon: 'fa-x-twitter' },
-    { platform: 'WhatsApp',  platform_ar: 'واتساب',    url: '#', username: '0500000000',         icon: 'fa-whatsapp'  },
-    { platform: 'YouTube',   platform_ar: 'يوتيوب',    url: '#', username: '@makhazen_alenayah', icon: 'fa-youtube'   },
+    { platform: 'Instagram', platform_ar: 'انستقرام', url: 'https://www.instagram.com/makhazenalenaya/', username: '@makhazenalenaya', icon: 'fa-instagram', color: '#E1306C' },
+    { platform: 'TikTok',    platform_ar: 'تيك توك',  url: 'https://www.tiktok.com/@makhazenalenaya',    username: '@makhazenalenaya', icon: 'fa-tiktok',    color: '#ffffff'  },
+    { platform: 'Snapchat',  platform_ar: 'سناب شات', url: 'https://www.snapchat.com/add/makhazenalenaya', username: 'makhazenalenaya', icon: 'fa-snapchat',  color: '#FFFC00'  },
+    { platform: 'Twitter',   platform_ar: 'تويتر / X',url: 'https://x.com/makhazenalenaya',              username: '@makhazenalenaya', icon: 'fa-x-twitter', color: '#ffffff'  },
+    { platform: 'WhatsApp',  platform_ar: 'واتساب',   url: 'https://wa.me/966920029921',                 username: '920029921',        icon: 'fa-whatsapp',  color: '#25D366'  },
   ];
 
   const branches = [
-    { name_ar: 'فرع العليا',       city_ar: 'الرياض',       address_ar: 'حي العليا، طريق الملك فهد', phone: '0112345601', map_url: '#' },
-    { name_ar: 'فرع النخيل مول',   city_ar: 'الرياض',       address_ar: 'نخيل مول، الرياض',          phone: '0112345602', map_url: '#' },
-    { name_ar: 'فرع مول الرياض',   city_ar: 'الرياض',       address_ar: 'مول الرياض، طريق الملك عبدالله', phone: '0112345603', map_url: '#' },
-    { name_ar: 'فرع حي طويق',      city_ar: 'الرياض',       address_ar: 'حي طويق، الرياض',           phone: '0112345604', map_url: '#' },
-    { name_ar: 'فرع حي الياسمين',  city_ar: 'الرياض',       address_ar: 'حي الياسمين، الرياض',       phone: '0112345605', map_url: '#' },
-    { name_ar: 'فرع البلد',        city_ar: 'جدة',          address_ar: 'البلد التاريخي، جدة',       phone: '0122345601', map_url: '#' },
-    { name_ar: 'فرع الحمرا',       city_ar: 'جدة',          address_ar: 'حي الحمرا، جدة',            phone: '0122345602', map_url: '#' },
-    { name_ar: 'فرع النزهة',       city_ar: 'جدة',          address_ar: 'حي النزهة، جدة',            phone: '0122345603', map_url: '#' },
-    { name_ar: 'فرع جوهرة مول',   city_ar: 'جدة',          address_ar: 'جوهرة مول، جدة',            phone: '0122345604', map_url: '#' },
-    { name_ar: 'فرع كورنيش الدمام',city_ar: 'الدمام',       address_ar: 'كورنيش الدمام',             phone: '0132345601', map_url: '#' },
-    { name_ar: 'فرع الفيصلية',     city_ar: 'الدمام',       address_ar: 'حي الفيصلية، الدمام',       phone: '0132345602', map_url: '#' },
-    { name_ar: 'فرع حي العنود',    city_ar: 'الدمام',       address_ar: 'حي العنود، الدمام',         phone: '0132345603', map_url: '#' },
-    { name_ar: 'فرع حي الراكة',    city_ar: 'الخبر',        address_ar: 'حي الراكة الشمالية، الخبر',phone: '0132345604', map_url: '#' },
-    { name_ar: 'فرع شارع الأمير',  city_ar: 'الخبر',        address_ar: 'شارع الأمير محمد، الخبر',   phone: '0132345605', map_url: '#' },
-    { name_ar: 'فرع العزيزية',     city_ar: 'مكة المكرمة',  address_ar: 'حي العزيزية، مكة',         phone: '0122345610', map_url: '#' },
-    { name_ar: 'فرع النسيم',       city_ar: 'مكة المكرمة',  address_ar: 'حي النسيم، مكة',           phone: '0122345611', map_url: '#' },
-    { name_ar: 'فرع حي العوالي',   city_ar: 'المدينة المنورة',address_ar: 'حي العوالي، المدينة',     phone: '0148345601', map_url: '#' },
-    { name_ar: 'فرع بني حارثة',   city_ar: 'المدينة المنورة',address_ar: 'حي بني حارثة، المدينة',   phone: '0148345602', map_url: '#' },
-    { name_ar: 'فرع المنهل',       city_ar: 'أبها',          address_ar: 'حي المنهل، أبها',          phone: '0172345601', map_url: '#' },
-    { name_ar: 'فرع الشهداء',      city_ar: 'الطائف',        address_ar: 'حي الشهداء، الطائف',       phone: '0122345620', map_url: '#' },
-    { name_ar: 'فرع الفناتير',     city_ar: 'الجبيل',        address_ar: 'حي الفناتير، الجبيل',      phone: '0133345601', map_url: '#' },
-    { name_ar: 'فرع المروة',       city_ar: 'تبوك',          address_ar: 'حي المروة، تبوك',          phone: '0144345601', map_url: '#' },
-    { name_ar: 'فرع الحمر',        city_ar: 'حائل',          address_ar: 'حي الحمر، حائل',           phone: '0163345601', map_url: '#' },
-    { name_ar: 'فرع وسط المدينة',  city_ar: 'بريدة',         address_ar: 'وسط مدينة بريدة',          phone: '0163345602', map_url: '#' },
-    { name_ar: 'فرع الشرفية',      city_ar: 'ينبع',          address_ar: 'حي الشرفية، ينبع',         phone: '0144345602', map_url: '#' },
+    { name_ar: 'مكة المكرمة - الشرائع',  city_ar: 'مكة المكرمة', address_ar: 'Al Muhandes Umar Qadi، الشرائع', phone: '920029921', map_url: 'https://maps.app.goo.gl/3bzfVB1pDvXQtqc46' },
+    { name_ar: 'مكة المكرمة - فرع ٢',    city_ar: 'مكة المكرمة', address_ar: 'شارع الخمسين، طريق الملك خالد', phone: '920029921', map_url: 'https://maps.app.goo.gl/kiwaqfbjFSaCCzW1A' },
+    { name_ar: 'جدة - ابحر',             city_ar: 'جدة',          address_ar: 'حي ابحر الشمالية، جدة',         phone: '920029921', map_url: 'https://maps.app.goo.gl/XwYU2Mpf8ipFkzxa7' },
+    { name_ar: 'جدة - فرع ٢',            city_ar: 'جدة',          address_ar: 'مقابل سبار ماركت، جدة',         phone: '920029921', map_url: 'https://maps.app.goo.gl/3zw2UDqX7orh4UqG6' },
+    { name_ar: 'جدة - حي الحمراء',       city_ar: 'جدة',          address_ar: 'حي الحمراء، جدة',               phone: '920029921', map_url: null },
+    { name_ar: 'الرياض - حي الربيع',     city_ar: 'الرياض',       address_ar: 'حي الربيع، الرياض',             phone: '920029921', map_url: null },
+    { name_ar: 'الرياض - حي المحمدية',   city_ar: 'الرياض',       address_ar: 'حي المحمدية، الرياض',           phone: '920029921', map_url: null },
+    { name_ar: 'الرياض - حي الياسمين',   city_ar: 'الرياض',       address_ar: 'حي الياسمين، الرياض',           phone: '920029921', map_url: null },
+    { name_ar: 'الرياض - الدائري الشرقي',city_ar: 'الرياض',       address_ar: 'الدائري الشرقي، الرياض',        phone: '920029921', map_url: null },
+    { name_ar: 'الرياض - ظهرة لبن',      city_ar: 'الرياض',       address_ar: 'حي ظهرة لبن، الرياض',           phone: '920029921', map_url: null },
+    { name_ar: 'الدمام - حي النزهة',     city_ar: 'الدمام',       address_ar: 'حي النزهة، الدمام',             phone: '920029921', map_url: null },
+    { name_ar: 'الدمام - حي الفيحاء',    city_ar: 'الدمام',       address_ar: 'شارع خالد بن الوليد، الفيحاء', phone: '920029921', map_url: 'https://maps.app.goo.gl/WBePwEkF5ESpTLVn7' },
+    { name_ar: 'الخبر',                  city_ar: 'الخبر',        address_ar: 'EKGA7484، الخبر',               phone: '920029921', map_url: 'https://maps.app.goo.gl/NB1uMntPLAiGfbCL6' },
+    { name_ar: 'الطائف',                 city_ar: 'الطائف',       address_ar: 'شارع الخمسين، طريق الملك خالد', phone: '920029921', map_url: 'https://maps.app.goo.gl/q79uN4MrVHdcqroz6' },
+    { name_ar: 'الأحساء',                city_ar: 'الأحساء',      address_ar: 'طريق عين نجم، المبرز',          phone: '920029921', map_url: 'https://maps.app.goo.gl/mZcuxXo8ZqqQqtaA8' },
+    { name_ar: 'حفر الباطن',             city_ar: 'حفر الباطن',   address_ar: '2811 طريق فيصل بن عبدالعزيز',  phone: '920029921', map_url: 'https://maps.app.goo.gl/M7b9e9q28zkFV8H67' },
+    { name_ar: 'خميس مشيط',             city_ar: 'خميس مشيط',   address_ar: 'طريق الأمير سلطان، خميس مشيط', phone: '920029921', map_url: 'https://maps.app.goo.gl/EjWLixBzPt6SnnC18' },
+    { name_ar: 'جازان',                  city_ar: 'جازان',        address_ar: 'كورنيش الملك فهد، جازان',       phone: '920029921', map_url: 'https://maps.app.goo.gl/byk6aX6Mko4kestT9' },
+    { name_ar: 'تبوك',                   city_ar: 'تبوك',         address_ar: 'تبوك',                          phone: '920029921', map_url: 'https://maps.app.goo.gl/P2RdZHZCvifsMxTr7' },
+    { name_ar: 'حائل',                   city_ar: 'حائل',         address_ar: 'حائل',                          phone: '920029921', map_url: null },
   ];
 
   const contact = [
-    { type: 'phone',    value: '920000000',      label_ar: 'خدمة العملاء' },
-    { type: 'whatsapp', value: '+966500000000',  label_ar: 'واتساب'       },
+    { type: 'phone',    value: '920029921',     label_ar: 'خدمة العملاء' },
+    { type: 'whatsapp', value: '+966920029921', label_ar: 'واتساب'       },
   ];
 
   const brandNames = [
