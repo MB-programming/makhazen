@@ -563,6 +563,89 @@ input, select, textarea { font-family: var(--font); }
 .upload-preview { margin-top: 10px; }
 .upload-preview img { max-height: 60px; margin: 0 auto; border-radius: 6px; }
 
+/* Existing logo display */
+.logo-current-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #0d0d0d;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.logo-current-preview {
+  width: 80px;
+  height: 56px;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 4px;
+}
+.logo-current-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.logo-current-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.btn-change-logo,
+.btn-remove-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1px solid var(--border);
+  background: transparent;
+}
+.btn-change-logo { color: var(--gold); border-color: rgba(255,207,6,0.3); }
+.btn-change-logo:hover { background: var(--gold-dim); }
+.btn-remove-logo { color: var(--red); border-color: rgba(255,77,77,0.25); }
+.btn-remove-logo:hover { background: rgba(255,77,77,0.08); }
+
+/* Upload uploading preview with badge */
+.logo-uploading-preview {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.logo-uploading-preview img {
+  width: 80px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+  padding: 4px;
+}
+.uploading-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gold);
+  background: rgba(255,207,6,0.1);
+  border: 1px solid rgba(255,207,6,0.25);
+  border-radius: 20px;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.uploading-badge.success { color: var(--green); background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.25); }
+
 /* Modal buttons */
 .btn-cancel {
   padding: 9px 20px;

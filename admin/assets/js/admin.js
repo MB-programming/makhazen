@@ -319,12 +319,28 @@ const FORMS = {
     </div>
     <div class="modal-form-group">
       <label>شعار البراند</label>
-      <div class="upload-area" onclick="document.getElementById('logo-file').click()">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <p>اضغط لرفع الشعار (JPG, PNG, WebP)</p>
-        <div class="upload-preview" id="upload-preview">
-          ${data.logo_url ? `<img src="../${data.logo_url}" />` : ''}
-        </div>
+      <div id="logo-zone">
+        ${data.logo_url
+          ? `<div class="logo-current-wrap">
+               <div class="logo-current-preview">
+                 <img src="../${data.logo_url}" alt="الشعار الحالي" id="logo-current-img" />
+               </div>
+               <div class="logo-current-actions">
+                 <button type="button" class="btn-change-logo" onclick="document.getElementById('logo-file').click()">
+                   <i class="fas fa-sync-alt"></i> تغيير الشعار
+                 </button>
+                 <button type="button" class="btn-remove-logo" onclick="removeLogo()">
+                   <i class="fas fa-trash"></i> حذف الشعار
+                 </button>
+               </div>
+             </div>`
+          : `<div class="upload-area" id="upload-area-btn" onclick="document.getElementById('logo-file').click()">
+               <i class="fas fa-cloud-upload-alt"></i>
+               <p>اضغط لرفع الشعار</p>
+               <small style="color:#555">JPG · PNG · WebP · SVG (بحد أقصى 2MB)</small>
+             </div>`
+        }
+        <div class="upload-preview" id="upload-preview" style="${data.logo_url ? 'display:none' : ''}"></div>
       </div>
       <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="previewAndUpload(this)" />
       <input type="hidden" id="f-logo_url" value="${data.logo_url || ''}" />
@@ -569,11 +585,20 @@ async function previewAndUpload(input) {
   const file = input.files[0];
   if (!file) return;
 
-  // Preview
+  // Instant local preview
   const reader = new FileReader();
   reader.onload = (e) => {
-    document.getElementById('upload-preview').innerHTML =
-      `<img src="${e.target.result}" style="max-height:60px;margin:0 auto;border-radius:6px" />`;
+    const preview = document.getElementById('upload-preview');
+    preview.style.display = 'block';
+    preview.innerHTML = `
+      <div class="logo-uploading-preview">
+        <img src="${e.target.result}" alt="preview" />
+        <span class="uploading-badge"><i class="fas fa-spinner fa-spin"></i> جاري الرفع...</span>
+      </div>`;
+
+    // Hide the upload button if visible
+    const btn = document.getElementById('upload-area-btn');
+    if (btn) btn.style.display = 'none';
   };
   reader.readAsDataURL(file);
 
@@ -586,13 +611,41 @@ async function previewAndUpload(input) {
     const data = await res.json();
     if (data.success) {
       document.getElementById('f-logo_url').value = data.url;
+      // Update preview to show success
+      const preview = document.getElementById('upload-preview');
+      preview.innerHTML = `
+        <div class="logo-uploading-preview">
+          <img src="../${data.url}" alt="preview" />
+          <span class="uploading-badge success"><i class="fas fa-check"></i> تم الرفع</span>
+        </div>`;
       showToast('تم رفع الشعار بنجاح', 'success');
     } else {
       showToast(data.message || 'فشل رفع الشعار', 'error');
+      resetUploadArea();
     }
   } catch {
     showToast('فشل رفع الشعار', 'error');
+    resetUploadArea();
   }
+}
+
+function removeLogo() {
+  document.getElementById('f-logo_url').value = '';
+  document.getElementById('logo-zone').innerHTML = `
+    <div class="upload-area" id="upload-area-btn" onclick="document.getElementById('logo-file').click()">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>اضغط لرفع الشعار</p>
+      <small style="color:#555">JPG · PNG · WebP · SVG (بحد أقصى 2MB)</small>
+    </div>
+    <div class="upload-preview" id="upload-preview"></div>`;
+  showToast('سيتم حذف الشعار عند الحفظ', 'success');
+}
+
+function resetUploadArea() {
+  const btn = document.getElementById('upload-area-btn');
+  if (btn) btn.style.display = '';
+  const preview = document.getElementById('upload-preview');
+  if (preview) { preview.style.display = 'none'; preview.innerHTML = ''; }
 }
 
 // ============================================================

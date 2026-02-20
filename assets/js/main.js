@@ -429,12 +429,15 @@ function renderBrands(brands) {
 
   brands.forEach((brand, i) => {
     const card = document.createElement('div');
-    card.className = 'brand-card';
 
     const logoHtml = brand.logo_url
-      ? `<img src="${brand.logo_url}" alt="${brand.name_en}" class="brand-logo-img" loading="lazy" />`
+      ? `<div class="brand-logo-wrap">
+           <img src="${brand.logo_url}" alt="${brand.name_en}" class="brand-logo-img" loading="lazy"
+                onerror="this.parentElement.remove(); this.closest('.brand-card').classList.remove('has-logo')" />
+         </div>`
       : `<div class="brand-logo-placeholder">${icons[i % icons.length]}</div>`;
 
+    card.className = brand.logo_url ? 'brand-card has-logo' : 'brand-card';
     card.innerHTML = `
       ${logoHtml}
       <div class="brand-name-en">${brand.name_en}</div>
