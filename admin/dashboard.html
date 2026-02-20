@@ -40,6 +40,10 @@
       <i class="fas fa-phone-alt"></i>
       <span>معلومات التواصل</span>
     </button>
+    <button class="nav-item" data-tab="tracking">
+      <i class="fab fa-google"></i>
+      <span>كودات التتبع</span>
+    </button>
   </nav>
 
   <div class="sidebar-footer">
@@ -192,6 +196,78 @@
           </thead>
           <tbody id="contact-tbody"></tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- ======= TRACKING TAB ======= -->
+    <div id="tab-tracking" class="tab-content">
+      <div class="tab-toolbar">
+        <div class="toolbar-left">
+          <h2 class="tab-title">كودات التتبع والتحليل</h2>
+        </div>
+        <button class="btn-add" onclick="saveTrackingCodes()">
+          <i class="fas fa-save"></i> حفظ الكودات
+        </button>
+      </div>
+
+      <!-- Hints -->
+      <div class="tracking-hints">
+        <div class="hint-card">
+          <i class="fab fa-google"></i>
+          <div>
+            <strong>Google Analytics</strong>
+            <p>الصق كود gtag.js أو GA4 في خانة كود الهيدر</p>
+          </div>
+        </div>
+        <div class="hint-card">
+          <i class="fab fa-facebook-f"></i>
+          <div>
+            <strong>Meta / Facebook Pixel</strong>
+            <p>الصق كود البيكسل في خانة كود الهيدر</p>
+          </div>
+        </div>
+        <div class="hint-card">
+          <i class="fas fa-tag"></i>
+          <div>
+            <strong>Google Tag Manager</strong>
+            <p>كود الـ &lt;script&gt; في الهيدر، وكود الـ &lt;noscript&gt; في البودي</p>
+          </div>
+        </div>
+        <div class="hint-card">
+          <i class="fas fa-chart-line"></i>
+          <div>
+            <strong>أي كود تتبع آخر</strong>
+            <p>TikTok Pixel, Snapchat Pixel, X Pixel...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tracking-form">
+        <!-- Header Code -->
+        <div class="tracking-block">
+          <div class="tracking-block-header">
+            <div class="tracking-block-icon"><i class="fas fa-code"></i></div>
+            <div>
+              <h3>كود الـ &lt;head&gt;</h3>
+              <p>يُحقن مباشرة داخل &lt;head&gt; في الموقع</p>
+            </div>
+          </div>
+          <textarea id="header_code" class="code-textarea" rows="10"
+            placeholder="<!-- Google Analytics -->\n<script async src='https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX'></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n  gtag('config', 'G-XXXXXXXXXX');\n</script>"></textarea>
+        </div>
+
+        <!-- Body Code -->
+        <div class="tracking-block">
+          <div class="tracking-block-header">
+            <div class="tracking-block-icon"><i class="fas fa-code"></i></div>
+            <div>
+              <h3>كود الـ &lt;body&gt;</h3>
+              <p>يُحقن في بداية &lt;body&gt; في الموقع (للـ noscript)</p>
+            </div>
+          </div>
+          <textarea id="body_code" class="code-textarea" rows="6"
+            placeholder="<!-- Google Tag Manager (noscript) -->\n<noscript><iframe src='https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX' height='0' width='0' style='display:none;visibility:hidden'></iframe></noscript>"></textarea>
+        </div>
       </div>
     </div>
 

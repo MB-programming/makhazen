@@ -6,6 +6,22 @@ CREATE DATABASE IF NOT EXISTS makhazen_db CHARACTER SET utf8mb4 COLLATE utf8mb4_
 USE makhazen_db;
 
 -- ------------------------------------------------
+-- Settings table (code injection, analytics)
+-- ------------------------------------------------
+CREATE TABLE IF NOT EXISTS settings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    `key` VARCHAR(100) NOT NULL UNIQUE,
+    value LONGTEXT,
+    label_ar VARCHAR(255),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO settings (`key`, value, label_ar) VALUES
+('header_code', '', 'كود الهيدر (Google Analytics / Meta Pixel)'),
+('body_code',   '', 'كود البودي (Google Tag Manager noscript)')
+ON DUPLICATE KEY UPDATE `key` = `key`;
+
+-- ------------------------------------------------
 -- Admins table
 -- ------------------------------------------------
 CREATE TABLE IF NOT EXISTS admins (

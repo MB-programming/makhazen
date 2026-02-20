@@ -105,6 +105,7 @@ function switchTab(tab) {
     brands:   'البراندات',
     social:   'التواصل الاجتماعي',
     contact:  'معلومات التواصل',
+    tracking: 'كودات التتبع',
   };
   document.getElementById('topbar-title').textContent = titles[tab] || tab;
 }
@@ -679,6 +680,51 @@ function initSidebar() {
 }
 
 // ============================================================
+// TRACKING CODES (Google Analytics / GTM)
+// ============================================================
+async function loadTrackingCodes() {
+  try {
+    const res  = await fetch('../api/settings.php?admin=1');
+    const data = await res.json();
+    if (!data.success) return;
+    data.data.forEach(row => {
+      const el = document.getElementById(row.key);
+      if (el) el.value = row.value || '';
+    });
+  } catch (_) {}
+}
+
+async function saveTrackingCodes() {
+  const btn = document.querySelector('#tab-tracking .btn-add');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+  const body = {
+    header_code: document.getElementById('header_code').value,
+    body_code:   document.getElementById('body_code').value,
+  };
+
+  try {
+    const res  = await fetch('../api/settings.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message || 'تم الحفظ بنجاح', 'success');
+    } else {
+      showToast(data.message || 'حدث خطأ', 'error');
+    }
+  } catch {
+    showToast('فشل الاتصال بالخادم', 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-save"></i> حفظ الكودات';
+}
+
+// ============================================================
 // LOGOUT
 // ============================================================
 document.getElementById('logout-btn').addEventListener('click', async () => {
@@ -732,7 +778,7 @@ async function init() {
 
   initTabs();
   initSidebar();
-  await loadAll();
+  await Promise.all([loadAll(), loadTrackingCodes()]);
 }
 
 init();

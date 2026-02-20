@@ -10,9 +10,9 @@
   --gold-glow:   rgba(255, 207, 6, 0.25);
   --gray:        #CCCACA;
   --gray-dark:   #888;
-  --black:       #000000;
-  --black-card:  #0d0d0d;
-  --black-light: #161616;
+  --black:       #13849e;
+  --black-card:  #0e6d85;
+  --black-light: #1596b5;
   --white:       #FFFFFF;
   --white-dim:   rgba(255,255,255,0.08);
 
@@ -54,7 +54,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #000;
+  background: #13849e;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,10 +97,10 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 .site-header.visible { transform: translateY(0); }
 .site-header.scrolled {
-  background: rgba(0,0,0,0.92);
+  background: rgba(14, 109, 133, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
   padding: 8px 20px;
 }
 .header-inner {
@@ -150,7 +150,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: #13849e;
   overflow: hidden;
 }
 
@@ -373,7 +373,7 @@ section { padding: 80px 0; }
 /* Skeleton */
 .social-skeleton {
   height: 84px;
-  background: linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%);
+  background: linear-gradient(90deg, #0e7290 25%, #1596b5 50%, #0e7290 75%);
   background-size: 200% 100%;
   border-radius: var(--radius);
   animation: shimmer 1.5s infinite;
@@ -386,7 +386,7 @@ section { padding: 80px 0; }
 /* ============================================================
    BRANCHES SECTION
 ============================================================ */
-.branches-section { background: #050505; position: relative; overflow: hidden; }
+.branches-section { background: #0f7192; position: relative; overflow: hidden; }
 .section-pattern-accent {
   position: absolute;
   top: -20px; left: 0; right: 0;
@@ -520,7 +520,7 @@ section { padding: 80px 0; }
 }
 .contact-section .container { position: relative; z-index: 1; }
 .contact-card {
-  background: linear-gradient(135deg, #0d0d0d 0%, #111 100%);
+  background: linear-gradient(135deg, #0e6d85 0%, #0e7290 100%);
   border: 1px solid rgba(255,207,6,0.2);
   border-radius: var(--radius-lg);
   padding: 48px 28px;
@@ -598,7 +598,7 @@ section { padding: 80px 0; }
 /* ============================================================
    BRANDS SECTION
 ============================================================ */
-.brands-section { background: #050505; position: relative; overflow: hidden; }
+.brands-section { background: #0f7192; position: relative; overflow: hidden; }
 .brands-pattern-bottom {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -766,7 +766,7 @@ section { padding: 80px 0; }
    SCROLLBAR CUSTOM
 ============================================================ */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-track { background: #13849e; }
 ::-webkit-scrollbar-thumb { background: rgba(255,207,6,0.3); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
