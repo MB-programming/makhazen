@@ -182,7 +182,7 @@ function animateBranches() {
     trigger: '.branches-section',
     start: 'top 75%',
     onEnter: () => {
-      gsap.to('.branch-card', {
+      gsap.to('.branch-card:not(.hidden):not(.card-extra-hidden)', {
         opacity: 1,
         y: 0,
         stagger: 0.06,
@@ -289,11 +289,16 @@ function renderSocial(items) {
 // ============================================================
 // RENDER BRANCHES
 // ============================================================
+const CARDS_PER_PAGE = 5;
+
 function renderBranches(branches) {
-  const grid         = document.getElementById('branches-grid');
-  const filterWrap   = document.getElementById('city-filter');
-  const allBtn       = filterWrap.querySelector('[data-city="all"]');
-  grid.innerHTML     = '';
+  const grid       = document.getElementById('branches-grid');
+  const filterWrap = document.getElementById('city-filter');
+  grid.innerHTML   = '';
+
+  // Remove old load-more button if re-rendered
+  const oldBtn = document.getElementById('branches-load-more');
+  if (oldBtn) oldBtn.remove();
 
   // Build unique cities list (preserve order)
   const cities = [];
@@ -306,16 +311,16 @@ function renderBranches(branches) {
   // Create city filter buttons
   cities.forEach(city => {
     const btn = document.createElement('button');
-    btn.className = 'city-btn';
+    btn.className   = 'city-btn';
     btn.dataset.city = city.ar;
     btn.textContent  = city.ar;
     filterWrap.appendChild(btn);
   });
 
-  // Render branch cards
+  // Render ALL branch cards
   branches.forEach(branch => {
     const card = document.createElement('div');
-    card.className = 'branch-card';
+    card.className   = 'branch-card';
     card.dataset.city = branch.city_ar || '';
 
     const phone = branch.phone ? `
@@ -346,6 +351,50 @@ function renderBranches(branches) {
     grid.appendChild(card);
   });
 
+  // Create "عرض المزيد" button after the grid
+  const loadMoreBtn = document.createElement('button');
+  loadMoreBtn.id        = 'branches-load-more';
+  loadMoreBtn.className = 'load-more-btn';
+  loadMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> عرض المزيد';
+  grid.insertAdjacentElement('afterend', loadMoreBtn);
+
+  // State
+  let currentCity  = 'all';
+  let visibleCount = CARDS_PER_PAGE;
+
+  // Returns cards that pass the current city filter
+  function filteredCards() {
+    return [...grid.querySelectorAll('.branch-card:not(.hidden)')];
+  }
+
+  // Show first visibleCount of filtered cards, hide the rest
+  function updateVisibility(animate = false) {
+    const cards = filteredCards();
+    const newlyShown = [];
+
+    cards.forEach((card, i) => {
+      if (i < visibleCount) {
+        if (card.classList.contains('card-extra-hidden')) newlyShown.push(card);
+        card.classList.remove('card-extra-hidden');
+      } else {
+        card.classList.add('card-extra-hidden');
+      }
+    });
+
+    loadMoreBtn.style.display = cards.length > visibleCount ? 'flex' : 'none';
+
+    if (animate && newlyShown.length) {
+      gsap.fromTo(
+        newlyShown,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, stagger: 0.08, duration: 0.5, ease: 'power3.out' }
+      );
+    }
+  }
+
+  // Initial render: show first 5
+  updateVisibility();
+
   // City filter logic
   filterWrap.addEventListener('click', (e) => {
     const btn = e.target.closest('.city-btn');
@@ -354,23 +403,33 @@ function renderBranches(branches) {
     filterWrap.querySelectorAll('.city-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    const selectedCity = btn.dataset.city;
-    const cards = grid.querySelectorAll('.branch-card');
+    currentCity  = btn.dataset.city;
+    visibleCount = CARDS_PER_PAGE; // reset count on filter change
 
-    cards.forEach(card => {
-      if (selectedCity === 'all' || card.dataset.city === selectedCity) {
+    // Apply city filter
+    grid.querySelectorAll('.branch-card').forEach(card => {
+      if (currentCity === 'all' || card.dataset.city === currentCity) {
         card.classList.remove('hidden');
       } else {
         card.classList.add('hidden');
+        card.classList.remove('card-extra-hidden'); // clean up
       }
     });
 
+    updateVisibility();
+
     // Re-animate visible cards
     gsap.fromTo(
-      grid.querySelectorAll('.branch-card:not(.hidden)'),
+      grid.querySelectorAll('.branch-card:not(.hidden):not(.card-extra-hidden)'),
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, stagger: 0.05, duration: 0.5, ease: 'power3.out' }
     );
+  });
+
+  // Load-more button
+  loadMoreBtn.addEventListener('click', () => {
+    visibleCount += CARDS_PER_PAGE;
+    updateVisibility(true);
   });
 
   animateBranches();
